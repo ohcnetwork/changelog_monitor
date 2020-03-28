@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="color: red; display: none;" id="errorMessage"></div>
+    <h2 id="RepoName"></h2>
+    <div id="Loading" style="display: none;">
+        <p>Loading...</p>
+    </div>
+    <table id="dataTable" style="display: none;">
+        <thead>
+            <td>#</td>
+            <td>Commit Author</td>
+            <td>Message</td>
+            <td>Date</td>
+            <td>Commit URL</td>
+        </thead>
+        <tbody id="dataTableBody">  
+        </tbody>
+    </table>
+    <div id="pagination" style="display: none;"></div>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script>
+        // Query params
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            return results[1] || 0;
+        }
+
+        // Link header parser
+        function parse_link_header(header) {
+            if (header.length == 0) {
+                throw new Error("input must not be of zero length");
+            }
+
+            // Split parts by comma
+            var parts = header.split(',');
+            var links = {};
+            // Parse each part into a named link
+            parts.forEach(item => {
+                var section = item.split(';');
+                var url = section[0].replace(/<(.*)>/, '$1').trim();
+                var name = section[1].replace(/rel="(.*)"/, '$1').trim();
+                links[name] = url;
+            })
+
+            return links;
+        }
+
+        $(document).ready(function(){
+            var user = 'coronasafe';
+            var repo = $.urlParam('name');
+            $('#RepoName').html(`Repo : ${repo}`)
+            ajaxCall(`https://api.github.com/repos/${user}/${repo}/commits?per_page=100`)
+        })
+
+        function ajaxCall(url){
+            $.ajax({
+                url: url,
+                method: "get",
+                beforeSend: () => {
+                    $('#Loading').show()
+                    $('#dataTable').hide()
+                    $('#errorMessage').hide()
+                    $('#pagination').hide()
+                },
+                success: function( result, textStatus, jqXHR ) {
+                    $('#Loading').hide()
+                    $('#errorMessage').hide()
+                    console.log("success");
+                    $('#dataTable').show()
+                    var op = ""
+                    result.forEach((element, index) => {
+                        op += `<tr><td>${index+1}</td>`;
+                        op += `<td>${element.commit.author.name}</td>`;
+                        op += `<td>${element.commit.message}</td>`;
+                        op += `<td>${element.commit.author.date}</td>`;
+                        op += `<td>${element.html_url}</td></tr>`;
+                    });
+                    $('#dataTableBody').html(op)
+                    // Pagination
+                    var LinkHeader = jqXHR.getResponseHeader('Link');
+                    var links = parse_link_header(LinkHeader)
+                    let op2 = ""
+                    for (let [key, value] of Object.entries(links)) {
+                        // op2 += `<a href="" onclick='ajaxCall("${value}")'>${key}</a>&nbsp`
+                        op2 += `<button onclick='ajaxCall("${value}")'>${key}</button>`
+                    }
+                    $('#pagination').html(op2)
+                    $('#pagination').show()
+                },
+                error: function(xhr, textStatus, errorThrown){
+                    $('#Loading').hide()
+                    $('#dataTable').hide()
+                    console.log("error");
+                    var err = eval("(" + xhr.responseText + ")");
+                    $('#errorMessage').html(`<p>Error : ${err.message}</p>`);
+                    $('#errorMessage').show()
+                    $('#pagination').hide()
+                }
+            });
+        }
+    </script>
+</body>
+</html>
