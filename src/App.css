@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+html, body {
+  font-family: 'Roboto', sans-serif;
+  color: #555;
+}
+
+.repoRow {
+  columns: #555555;
+}
+
+.listIcon {
+  font-size: 60px;
+  padding: 20px;
+  color: #f05033;
+}
+
+.listDetails {
+  padding: 20px;
+  font-weight: 600;
+  width: 400px;
+}
+
+.listRepoName {
+  font-size: 18px;
+}
+
+.issueCount {
+  font-weight: 400;
+  color: #444;
+}
+
+.forksCount {
+  padding-left: 30px;
+  font-weight: 400;
+  color: #444;
+}
+
+.listIssueIcon {
+  margin-right: 10px;
+  color: #919191;
+}
+
+.listDesc {
+  font-weight: 400;
+  font-size: 14px;
+  color: #444;
+}
+
+.listOpenBtn {
+  padding: 45px 20px;
+  text-align: right;
+}
+
+.listOpenBtn .btn {
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.listOpenBtn .btn:hover {
+  background-color: #269f42;
+  background-image: linear-gradient(-180deg, #2fcb53, #269f42 90%);
+  color: #fff;
+}
+
+.commitList {
+  padding: 20px;
+}
+
+.commitAvatar {
+  width: 60px;
+}
+
+.commitAvatar img {
+  width: 60px;
+}
+
+.commitMessage {
+  font-size: 15px;
+}
+
+.commitSHA {
+  font-size: 12px;
+  color: rgb(0, 132, 240)
+}
+
+.commitTime {
+  color: #444;
+  text-align: right;
+  font-size: 13px;
+}
+
+.commitVerification {
+  color: #444;
+  font-size: 12px;
+}
+
+.commitDetails {
+  padding-left: 30px;
+  width: 50%;
+}
+
+.green {
+  color: #34d058;
+}
+
+.red {
+  color: #d03434;
+}
+
+.commitDetails p {
+  margin-bottom: 0;
+}
+
+.repoIcon {
+  font-size: 100px;
+  color: #f05033;
+}
