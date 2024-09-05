@@ -17,7 +17,7 @@ class App extends React.Component {
 		}
 	}
 	componentWillMount() {
-		fetch('https://api.github.com/users/coronasafe/repos?per_page=100')
+		fetch('https://api.github.com/users/ohcnetwork/repos?per_page=100')
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ repoList: data })
@@ -29,12 +29,12 @@ class App extends React.Component {
 
 	fetchRepoData() {
 		var repo = this.props.match.params.repo;
-		fetch('https://api.github.com/repos/coronasafe/' + repo + '/commits?per_page=100')
+		fetch('https://api.github.com/repos/ohcnetwork/' + repo + '/commits?per_page=100')
 			.then(response => response.json())
 			.then(data => {
 				this.setState({ repoCommitData: data })
 			})
-		fetch('https://api.github.com/repos/coronasafe/' + repo)
+		fetch('https://api.github.com/repos/ohcnetwork/' + repo)
 			.then(response => response.json())
 			.then(data => {
 				console.log(data)
@@ -47,7 +47,7 @@ class App extends React.Component {
 			<div className="container" >
 				<br></br>
 				<h3>Changelog Monitor</h3>
-				<p>Changelog monitor for all coronasafe repositories</p>
+				<p>Changelog monitor for all ohcnetwork repositories</p>
 				{this.state.repoList.map((item, index) => (
 					<div key={index} className="row repoRow border	 rounded m-3">
 						<div className=" listIcon"><i className="fab fa-git-alt"></i></div>
